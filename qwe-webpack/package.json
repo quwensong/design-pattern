@@ -1,10 +1,10 @@
 {
-  "name": "my-webpack",
+  "name": "qwe-webpack",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "author": "quwensong",
   "license": "ISC",
   "bin": {
     "qwe": "./bin/www.js"
