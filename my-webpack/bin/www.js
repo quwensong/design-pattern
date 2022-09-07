@@ -13,6 +13,13 @@ const Compiler = require('../src/compiler');
 
 // 4.实例化打包器
 const compiler = new Compiler(config)
-
+if(Array.isArray(config.plugins)){
+  config.plugins.forEach(plugin => {
+    // 如果有插件对象，就执行对象上面的apply方法并且把compiler传过去
+    plugin.apply(compiler)
+  })
+}
+config.plugins.forEac
+compiler.hooks.entryOption.call();
 // 5.开始打包
 compiler.run()

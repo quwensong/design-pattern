@@ -13,6 +13,7 @@
     "@babel/generator": "^7.18.13",
     "@babel/traverse": "^7.18.13",
     "babylon": "^6.18.0",
-    "ejs": "^3.1.8"
+    "ejs": "^3.1.8",
+    "tapable": "^2.2.1"
   }
 }

@@ -3,7 +3,25 @@ const fs = require('fs');
 
 const babylon = require('babylon'); //源代码转化为 ast语法树
 const traverse = require('@babel/traverse').default; //遍历树
-const generator = require('@babel/generator').default; //
+const generator = require('@babel/generator').default; 
+
+// 创建各种钩子
+// 插件将自己的方法注册到对应钩子上，交给webpack
+// webpack编译时,会适时地触发相应钩子，因此也就触发了tapable的方法
+const { SyncHook } = require('tapable');
+// SyncHook实现原理：
+// class SyncHook {
+//   constructor() {
+//     this.hooks = [];
+//   }
+//   tap(name, fn) {
+//     this.hooks.push(fn);
+//   }
+//   call() {
+//     this.hooks.forEach((hook) => hook(...arguments));
+//   }
+//   }
+  
 
 const template = fs.readFileSync(path.resolve(__dirname, 'template.ejs'), 'utf8');
 
@@ -15,6 +33,13 @@ class Compiler {
     this.modules = {} //需要的所有模块
     this.entry = this.config.entry; 
     this.template = template;
+    this.hooks = {
+      // SyncHook
+      entryOption:new SyncHook(),
+      run:new SyncHook(),
+      emit:new SyncHook(), //发射文件
+      afterEmit:new SyncHook()
+    };
     this.root = process.cwd(); //获取当前命令运行时候的路径  => D:\前端学习learn\Vue学习之路\webpack\test
   }
   readSource(filePath) {
@@ -38,9 +63,6 @@ class Compiler {
         normalLoader()
       }
     }
-    
-    
-    
     return content;
   }
   parser(source,parentPath){
@@ -108,18 +130,17 @@ class Compiler {
       fs.writeFileSync(outputPath, this.assets[filename]);
     })
   }
-
   run(){
+    this.hooks.run.call();
     // 入口文件的路径 path.join(this.root,this.entry) => D:\前端学习learn\Vue学习之路\webpack\test\src\index.js
     console.log("开始打包",);
     // 1.找到入口和所有依赖
     this.buildModule(path.join(this.root,this.entry),true);
-    console.log(this.modules)
     // 2.使用模板和数据渲染成为一个打包后的文件
+    this.hooks.afterEmit.call();
     this.emit();
-    
+    this.hooks.emit.call();
   }
-
 }
 
 module.exports = Compiler;
