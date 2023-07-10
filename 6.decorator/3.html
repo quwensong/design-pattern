@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单校验</title>
+</head>
+
+<body>
+
+    用户名 <input type="text" name="username" id="username" />
+    密码 <input type="text" name="password" id="password" />
+    <button id="register">注册</button>
+
+    <script>
+        Function.prototype.before = function (beforeFn) {
+            let thisFn = this;
+            return function () {
+                let pass = beforeFn();
+                if (pass) {
+                    thisFn.apply(this, arguments);
+                }
+            }
+        }
+        function registerFn(event) {
+            console.log('提交表单');
+        }
+        /*  registerFn = registerFn.before(function () {
+             let username = document.getElementById('username').value;
+             if (!username) {
+                 return alert('用户名不能为空')
+             }
+             return true;
+         }); */
+        registerFn = registerFn.before(function () {
+            let password = document.getElementById('password').value;
+            if (!password) {
+                return alert('密码不能为空')
+            }
+            return true;
+        });
+        let registerBtn = document.getElementById('register');
+        registerBtn.addEventListener('click', registerFn);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">click</button>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        let btn = document.getElementById('btn');
+        const handler1 = () => console.log(1);
+        const handler2 = () => console.log(2);
+        const handler3 = () => console.log(3);
+        /*        
+                btn.addEventListener('click', handler1);
+                btn.addEventListener('click', handler2);
+                btn.addEventListener('click', handler3); */
+        $('#btn').on('clickMe', handler1);
+        $('#btn').on('clickMe', handler2);
+        $('#btn').on('clickMe', handler3);
+        $('#btn').trigger('clickMe');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        each([1, 2, 3], function (index, item) {
+            console.log(index, item);
+        });
+        function each(arr, callback) {
+            for (let i = 0; i < arr.length; i++) {
+                callback(i, arr[i]);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="todos">
+
+    </ul>
+    <script>
+        let todos = document.getElementById('todos');
+        function render(result) {
+            todos.innerHTML = result.map(todo => `
+                <li><input type="checkbox" value="${todo.id}" ${todo.completed ? 'checked' : ''}/>${todo.text}</li>
+                `).join('');
+        }
+        window.onload = function () {
+            fetch('/getTodos').then(res => res.json()).then(result => {
+                render(result);
+            });
+        }
+        function toggle(id) {
+            fetch(`/toggle/${id}`).then(res => res.json()).then(result => {
+                render(result);
+            })
+        }
+        function LazyToggle() {
+            let ids = [];
+            let timer;
+            return function (id) {
+                ids.push(id);
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    toggle(ids.join(','));// 1,2,3
+                    ids = [];
+                    timer = null;
+                }, 1000);
+            }
+        }
+        let lazy = LazyToggle();
+        todos.addEventListener('click', (event) => {
+            let checkbox = event.target;
+            let id = checkbox.value;
+            lazy(id);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        function Callbacks() {
+            let observers = [];
+            function add(observer) {
+                observers.push(observer);
+            }
+            function remove(observer) {
+                observers = observers.filter(item => item != observer);
+            }
+            function fire() {
+                observers.forEach(item => item());
+            }
+            return {
+                add,
+                remove,
+                fire
+            }
+        }
+        let callbacks = Callbacks();
+        const handler1 = () => console.log(1);
+        const handler2 = () => console.log(2);
+        const handler3 = () => console.log(3);
+        callbacks.add(handler1);
+        callbacks.add(handler2);
+        callbacks.add(handler3);
+        callbacks.remove(handler2);
+        callbacks.fire();
+
+
+    </script>
+</body>
+
+</html>

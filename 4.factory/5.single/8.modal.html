@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="show-button">显示登录模态窗口</button>
+    <button id="hide-button">隐藏登录模态窗口</button>
+    <script>
+        class LoginModal {
+            static instance;
+            constructor() {
+                this._element = document.createElement('div');
+                this._element.innerHTML = (
+                    `
+                        <form>
+                             用户名<input/>
+                             <button>登录</button>
+                            </form>
+                    `
+                )
+                this._element.style.cssText = 'border:3px solid red;border-radius:10px;window:100px;height:100px;position:absolute;left:50%;top:50%;display:block';
+                document.body.appendChild(this._element);
+            }
+            show() {
+                this._element.style.display = 'block';
+            }
+            hide() {
+                this._element.style.display = 'none';
+            }
+            static getInstance() {
+                if (!LoginModal.instance) {
+                    LoginModal.instance = new LoginModal();
+                }
+                return LoginModal.instance;
+            }
+        }
+        document.getElementById('show-button').addEventListener('click', () => {
+            LoginModal.getInstance().show();
+        });
+        document.getElementById('hide-button').addEventListener('click', () => {
+            LoginModal.getInstance().hide();
+        });
+    </script>
+</body>
+
+</html>

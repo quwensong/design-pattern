@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .image {
+            width: 300px;
+            height: 200px;
+            background-color: #CCC;
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image-container">
+        <div class="image">
+            <img data-src="/images/bg1.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg2.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg3.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg4.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg5.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg6.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg7.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg8.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg9.jpg" />
+        </div>
+        <div class="image">
+            <img data-src="/images/bg10.jpg" />
+        </div>
+    </div>
+    <script>
+        const images = document.getElementsByTagName('img');
+        let clientHeight = window.innerHeight || document.documentElement.clientHeight;
+        function lazyLoad() {
+            for (let i = 0; i < images.length; i++) {
+                if (images[i].getBoundingClientRect().top < clientHeight) {
+                    images[i].src = images[i].dataset.src;
+                }
+            }
+        }
+        lazyLoad();
+        window.addEventListener('scroll', lazyLoad, false);
+    </script>
+</body>
+
+</html>

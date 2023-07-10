@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <p>{{name}}</p>
+        <p>{{upperName}}</p>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#root',
+            data: {
+                name: 'zhufeng'
+            },
+            computed: {
+                upperName() {
+                    return this.name.toUpperCase();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        let container = document.getElementById('root');
+        class Component {
+            state = { number: 0 }
+            componentWillMount() {
+                console.log('componentWillMount');
+            }
+
+            componentDidMount() {
+                console.log('componentDidMount');
+            }
+            shouldComponentUpdate() {
+                console.log('shouldComponentUpdate');
+                return true;
+            }
+            componentWillUpdate() {
+                console.log('componentWillUpdate');
+            }
+
+            componentDidUpdate() {
+                console.log('componentDidUpdate');
+            }
+            setState(newState) {
+                this.state = { ...this.state, ...newState }
+                if (!this.shouldComponentUpdate || (this.shouldComponentUpdate && this.shouldComponentUpdate())) {
+                    if (this.componentWillUpdate)
+                        this.componentWillUpdate();
+                    let content = this.render();
+                    container.innerHTML = content;
+                    if (this.componentDidUpdate)
+                        this.componentDidUpdate();
+                }
+            }
+            render() {
+                console.log('render');
+                return this.state.number;
+            }
+        }
+        render(Component, document.getElementById('root'));
+        function render(Component, container) {
+
+            let component = new Component();
+            if (component.componentWillMount)
+                component.componentWillMount();
+            let content = component.render();
+            container.innerHTML = content;
+            if (component.componentDidMount)
+                component.componentDidMount();
+
+            setTimeout(() => {
+                component.setState({ number: 1 });
+            }, 3000);
+        }
+
+    </script>
+</body>
+
+</html>

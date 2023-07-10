@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <select id="users"></select>
+        <button>注册</button>
+    </form>
+    <script>
+        //从服务端读到数据，然后显示在select框里
+        let treeData = [
+            {
+                name: '山东',
+                key: 'shandong',
+                children: [
+                    { name: '青岛', key: 'qingdao' },
+                    { name: '威海', key: 'weihai' },
+                ]
+            },
+            {
+                name: '广东',
+                key: 'guangdong',
+                children: [
+                    { name: '东莞', key: 'dongguan' },
+                    { name: '深圳', key: 'shenzhen' },
+                ]
+            }
+        ]
+        //[山东,青岛,威海,广东,东莞,深圳]
+        let users = document.getElementById('users');
+        function flattenAdaptor(treeData, array) {
+            treeData.forEach(item => {
+                if (item.children) {
+                    flattenAdaptor(item.children, array);
+                }
+                array.push({ name: item.name, key: item.key });
+            });
+        }
+
+        //let addressArray = [{ name: '山东', key: 'shandong' }, { name: '青岛', key: 'qingdao' }];
+        let addressArray = [];
+        flattenAdaptor(treeData, addressArray);;
+        let html = addressArray.map(item => `<option value="${item.key}">${item.name}</option>`).join('');
+        users.innerHTML = html;
+
+        let categories = [
+            { id: 1, name: '水果' },
+            { id: 2, name: '哈密瓜', parent_id: 1 }
+        ]
+    </script>
+</body>
+
+</html>

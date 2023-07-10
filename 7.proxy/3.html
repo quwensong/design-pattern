@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bg-container {
+            width: 600px;
+            height: 400px;
+            margin: 100px auto;
+        }
+
+        .bg-container img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="background">
+        <button data-src="/images/bg1.jpg">bg1.jpg</button>
+        <button data-src="/images/bg2.jpg">bg2.jpg</button>
+        <button data-src="/images/bg3.jpg">bg3.jpg</button>
+    </div>
+    <div class="bg-container">
+        <img id="bg-image" src="/images/bg1.jpg" />
+    </div>
+    <script>
+        let background = document.getElementById('background');
+        class BackgroundImage {
+            constructor() {
+                this.bgImg = document.getElementById('bg-image');
+            }
+            setSrc(src) {
+                this.bgImg.src = src;
+            }
+        }
+        class LoadingBackgroundImage {
+            static LOADING_URL = '/images/loading.gif';
+            constructor() {
+                //一般会在代理类中引用一个目标类的实例
+                this.backgroundImage = new BackgroundImage();
+            }
+            setSrc(src) {
+                //立刻把图片的地址改为loading
+                this.backgroundImage.setSrc(LoadingBackgroundImage.LOADING_URL);
+                let img = new Image();
+                //当img浏览器已经把真实的图片下载到本地之后，浏览器会立刻缓存这张图片
+                //然后我把这个新的图片路径 赋给了<img id="bg-image" ,它会立刻请求src新图片。
+                img.onload = () => {
+                    this.backgroundImage.setSrc(src);
+                }
+                img.src = src;//把切换的图片传给了 img.src
+            }
+        }
+        let loadingBackgroundImage = new LoadingBackgroundImage();
+        background.addEventListener('click', (event) => {
+            let src = event.target.dataset.src;//"/images/bg1.jpg"
+            loadingBackgroundImage.setSrc(src);
+        });
+    </script>
+</body>
+
+</html>
